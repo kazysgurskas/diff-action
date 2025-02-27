@@ -1,4 +1,4 @@
-# Diff Split Comments
+# Diff Action
 
 A GitHub Action that generates and posts split diff comments on Pull Requests. This action is particularly useful when you need to show the differences between all files between two folders.
 
@@ -105,4 +105,4 @@ The example workflow above demonstrates a strategy where:
 
 ## License
 
-MIT License - see the LICENSE file for details.
+MIT License - see the [LICENSE](LICENSE) file for details.
