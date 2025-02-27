@@ -84,7 +84,7 @@ jobs:
           cp -r output/* /tmp/live-output/
 
       - name: Post GitOps diff
-        uses: your-username/gitops-diff-split-comments@v1
+        uses: kazysgurskas/gitops-diff-split-comments@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           source-dir: /tmp/live-output
