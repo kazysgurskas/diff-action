@@ -24,10 +24,6 @@ inputs:
     description: 'Whether to delete previous diff comments'
     required: false
     default: 'true'
-  comment-prefix:
-    description: 'Prefix to add to each comment title'
-    required: false
-    default: 'Diff'
 
 runs:
   using: 'docker'

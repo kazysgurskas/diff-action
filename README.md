@@ -34,7 +34,6 @@ A GitHub Action that generates and posts split diff comments on Pull Requests. T
 | `max-comment-size` | Maximum size in characters for each comment | No | `65000` |
 | `ignore-patterns` | Comma-separated list of file patterns to ignore | No | `''` |
 | `delete-previous-comments` | Whether to delete previous diff comments | No | `true` |
-| `comment-prefix` | Prefix to add to each comment title | No | `Diff` |
 
 ## Example Workflow
 
