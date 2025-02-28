@@ -1,5 +1,5 @@
-name: 'Split diff comment action'
-description: 'Generate and post diff in comments on PR'
+name: 'diff-action'
+description: 'Generate and post diff in comments on Github Pull Request.'
 author: 'Kazys Gurskas'
 inputs:
   token:

@@ -16,7 +16,7 @@ async function run() {
     const maxCommentSize = parseInt(core.getInput('max-comment-size'));
     const ignorePatterns = core.getInput('ignore-patterns');
     const deletePreviousComments = core.getInput('delete-previous-comments') === 'true';
-    const commentPrefix = core.getInput('comment-prefix');
+    const commentPrefix = core.getInput('comment-prefix') || 'Diff';
 
     // Validate input
     if (!fs.existsSync(sourceDir)) {
@@ -66,20 +66,13 @@ async function run() {
         owner,
         repo,
         prNumber,
-        `### ${commentPrefix}\nNo differences found between directories.`
+        `### ${commentPrefix}\nNo differences found.`
       );
       return;
     }
 
-    // Post summary comment
-    core.info('Posting summary comment...');
-    await postComment(
-      octokit,
-      owner,
-      repo,
-      prNumber,
-      `### ${commentPrefix} Summary\nFound changes in ${diffFiles.length} file(s). Detailed diffs follow in separate comments.`
-    );
+    // Proceed directly to posting individual diff comments
+    core.info('Posting individual diff comments...');
 
     // Post each file diff as a separate comment
     core.info('Posting individual diff comments...');
@@ -93,8 +86,8 @@ async function run() {
 
         for (let i = 0; i < chunks.length; i++) {
           const title = i === 0 ?
-            `### ${commentPrefix} for ${fileName}` :
-            `### ${commentPrefix} for ${fileName} (continued ${i+1}/${chunks.length})`;
+            `### ${commentPrefix}` :
+            `### ${commentPrefix} (continued ${i+1}/${chunks.length})`;
 
           await postComment(
             octokit,
@@ -114,7 +107,7 @@ async function run() {
           owner,
           repo,
           prNumber,
-          `### ${commentPrefix} for ${fileName}\n\`\`\`diff\n${diffContent}\n\`\`\``
+          `### ${commentPrefix}\n\`\`\`diff\n${diffContent}\n\`\`\``
         );
 
         // Add a small delay to avoid rate limiting
@@ -138,7 +131,7 @@ async function deletePreviousDiffComments(octokit, owner, repo, prNumber, commen
 
   const diffComments = comments.filter(comment =>
     comment.body.includes(`### ${commentPrefix}`) ||
-    comment.body.includes(`### ${commentPrefix} for`)
+    comment.body.includes(`### ${commentPrefix} (continued`)
   );
 
   for (const comment of diffComments) {
